@@ -1,0 +1,10 @@
+.create-form {
+  &__error-text {
+    position: absolute;
+    right: 0;
+    bottom: -11px;
+    &--active {
+      color: #ff4d4f;
+    }
+  }
+}

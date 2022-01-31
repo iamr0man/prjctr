@@ -1,0 +1,23 @@
+.note-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border: 1px solid black;
+  margin: 15px 0;
+
+  &__text {
+    div {
+      display: flex;
+    }
+    img {
+      width: 100%;
+    }
+  }
+
+  &__row {
+    margin-top: 10px;
+    button {
+      margin-right: 10px;
+    }
+  }
+}
