@@ -3,20 +3,30 @@ import NoteItem from "./NoteItem";
 import CHeader from "../Common/CHeader";
 import './index.scss'
 import { Button, Input } from 'antd';
-import {useDispatch, useSelector} from "react-redux";
-import { editNote, toggleCreateForm } from '../../store/actions/index'
+import {useNoteState} from "../../store/modules/NoteState";
+import {useFormState} from "../../store/modules/FormState";
 const { Search } = Input;
 
-function NoteList (props) {
-    const [searchedValue, setSearchedValue] = useState('')
-
-    let noteList = useSelector(state => state.notes)
-    const dispatch = useDispatch()
+function NoteList () {
+    const [state, action] = useNoteState()
+    const [_, formAction] = useFormState()
 
     const openCreateNoteForm = () => {
-        dispatch(editNote(null))
-        dispatch(toggleCreateForm(true))
+        action.editNote(null)
+        formAction.toggleCreateForm(true)
     }
+
+    const filterValue = (item, searchedValue) => item.title.includes(searchedValue) || item.content.includes(searchedValue)
+
+    return <NoteListView
+        noteList={state.notes}
+        openCreateNoteForm={openCreateNoteForm}
+        filterValue={filterValue}
+    />
+}
+
+function NoteListView ({ noteList, openCreateNoteForm, filterValue }) {
+    const [searchedValue, setSearchedValue] = useState('')
 
     return (
         <div className="note-list">
@@ -31,9 +41,9 @@ function NoteList (props) {
             <Search placeholder="input search text" onSearch={(value) => setSearchedValue(value)} enterButton />
             <div className="note-list">
                 {
-                    noteList.map(v => {
-                        if (v.title.includes(searchedValue) || v.content.includes(searchedValue)) {
-                            return <NoteItem item={v} key={v.id} />
+                    noteList.map(item => {
+                        if (filterValue(item, searchedValue)) {
+                            return <NoteItem item={item} key={item.id} />
                         }
                     })
                 }

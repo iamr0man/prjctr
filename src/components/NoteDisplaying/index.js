@@ -1,19 +1,24 @@
 import React, {useEffect} from 'react';
 import './index.scss'
-import {useSelector} from "react-redux";
-import {Typography} from 'antd';
-const { Title } = Typography;
-
+import NoteDisplayingView from "./NoteDisplayingView";
+import {useNoteState} from "../../store/modules/NoteState";
 
 function NoteDisplaying (props) {
+    const [state, action] = useNoteState()
+    const { selectedNote } = state
+
+
+    useEffect(() => {
+        const noteDisplaying = document.getElementsByClassName('note-displaying')
+
+        iterateTroughNoteAndAddEventToLink(noteDisplaying[0])
+    }, [selectedNote])
 
     const decodeHtml = (html) => {
         const txt = document.createElement("textarea");
         txt.innerHTML = html;
         return txt.value;
     }
-
-    const selectedNote = useSelector(state => state.selectedNote)
 
     const confirmTransition = (e) => {
         e.preventDefault()
@@ -31,34 +36,11 @@ function NoteDisplaying (props) {
             [...node.children].forEach(v => iterateTroughNoteAndAddEventToLink(v))
         }
     }
-
-    useEffect(() => {
-        const noteDisplaying = document.getElementsByClassName('note-displaying')
-
-        iterateTroughNoteAndAddEventToLink(noteDisplaying[0])
-    }, [selectedNote])
-
     return (
-        <>
-            {
-                (selectedNote && selectedNote.content)
-                    ? (
-                    <div>
-                        <Title level={1}>
-                            {selectedNote.title}
-                        </Title>
-                        <div className="note-displaying" dangerouslySetInnerHTML={{ __html: decodeHtml(selectedNote.content) }} />
-                    </div>)
-                    : (
-                    <div>
-                        <Title level={1}>
-                            {selectedNote.title}
-                        </Title>
-                        <div className="note-displaying">No Content</div>
-                    </div>
-                )
-            }
-        </>
+        <NoteDisplayingView
+            selectedNote={selectedNote}
+            decodeHtml={decodeHtml}
+        />
     );
 }
 
