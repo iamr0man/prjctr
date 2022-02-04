@@ -11,7 +11,6 @@ import {NOTE_LIST} from "../../constants";
 // init note list
 export const initNoteList = dispatch => () => {
     try {
-        debugger
         const data = localStorage.getItem(NOTE_LIST)
 
         if (!data) {

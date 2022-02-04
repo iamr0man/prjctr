@@ -4,10 +4,16 @@ import './index.css';
 import 'antd/dist/antd.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {FormProvider} from "./components/Providers/form";
+import {NoteListProvider} from "./components/Providers/note";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <FormProvider>
+          <NoteListProvider>
+            <App />
+          </NoteListProvider>
+      </FormProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -2,23 +2,16 @@ import React, {useEffect} from 'react';
 import './index.scss'
 import NoteDisplayingView from "./NoteDisplayingView";
 import {useNoteState} from "../../store/modules/NoteState";
+import { decodeHtml } from "../../helpers";
 
 function NoteDisplaying (props) {
-    const [state, action] = useNoteState()
-    const { selectedNote } = state
-
+    const [state, actions] = useNoteState()
 
     useEffect(() => {
         const noteDisplaying = document.getElementsByClassName('note-displaying')
 
         iterateTroughNoteAndAddEventToLink(noteDisplaying[0])
-    }, [selectedNote])
-
-    const decodeHtml = (html) => {
-        const txt = document.createElement("textarea");
-        txt.innerHTML = html;
-        return txt.value;
-    }
+    }, [state.selectedNote])
 
     const confirmTransition = (e) => {
         e.preventDefault()
@@ -36,9 +29,10 @@ function NoteDisplaying (props) {
             [...node.children].forEach(v => iterateTroughNoteAndAddEventToLink(v))
         }
     }
+
     return (
         <NoteDisplayingView
-            selectedNote={selectedNote}
+            selectedNote={state.selectedNote}
             decodeHtml={decodeHtml}
         />
     );

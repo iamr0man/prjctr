@@ -3,70 +3,63 @@ import './index.scss'
 import {Button, Typography} from 'antd';
 import {useNoteState} from "../../../store/modules/NoteState";
 import {useFormState} from "../../../store/modules/FormState";
+import { stripHtml } from "../../../helpers";
 
 const { Title, Text } = Typography;
 
 function NoteItem ({ item }) {
-    const [state, action] = useNoteState()
+    const [state, actions] = useNoteState()
     const [_, formAction] = useFormState()
 
     const { selectedNote } = state
 
     const shortText = useMemo(() => {
         if (item.content.length > 50) {
-            return item.content.slice(0, 50) + '...'
+            return stripHtml(item.content.slice(0, 50)) + '...'
         }
         return item.content
     }, [item])
 
-    const stripHtml = (html) => {
-        let tmp = document.createElement("DIV");
-        tmp.innerHTML = html;
-        return tmp.textContent || tmp.innerText || "";
-    }
-
-    const getHandledText = () => stripHtml(shortText)
-
     const openNoteDetails = () => {
         formAction.toggleCreateForm(false)
-        action.selectNote(item)
+        formAction.selectNote(item)
     }
 
     const editNoteDetails = (e) => {
         e.stopPropagation()
 
-        action.editNote(item)
+        actions.editNote(item)
         formAction.toggleCreateForm(true)
     }
 
     const deleteNoteFromList = (e) => {
         e.stopPropagation()
 
-        action.deleteNote(item.id)
+        actions.deleteNote(item.id)
 
         if (selectedNote && selectedNote.id === item.id) {
             formAction.toggleCreateForm(true)
-            action.selectNote({ title: '', content: '' })
+            formAction.selectNote({ title: '', content: '' })
         }
     }
 
     return (
         <NoteItemView
             title={item.title}
-            getHandledText={getHandledText}
-            openNoteDetails={openNoteDetails}
-            editNoteDetails={editNoteDetails}
-            deleteNoteFromList={deleteNoteFromList}
+            content={shortText}
+            onClickNote={openNoteDetails}
+            onEditNote={editNoteDetails}
+            onDeleteNote={deleteNoteFromList}
         />
     );
 }
 
-function NoteItemView ({ title, openNoteDetails, editNoteDetails, deleteNoteFromList, getHandledText }) {
+function NoteItemView ({ title, content, onClickNote, onEditNote, onDeleteNote }) {
 
     return (
         <div
             className="note-item"
-            onClick={() => openNoteDetails()}
+            onClick={() => onClickNote()}
         >
             <Title
                 level={3}
@@ -77,18 +70,18 @@ function NoteItemView ({ title, openNoteDetails, editNoteDetails, deleteNoteFrom
             <Text
                 className="note-item__text"
             >
-                <div dangerouslySetInnerHTML={{ __html: getHandledText() }} />
+                <div dangerouslySetInnerHTML={{ __html: content }} />
             </Text>
             <div className="note-item__row">
                 <Button
                     type="primary"
-                    onClick={(e) => editNoteDetails(e)}
+                    onClick={(e) => onEditNote(e)}
                 >
                     Edit Note
                 </Button>
                 <Button
                     type="danger"
-                    onClick={(e) => deleteNoteFromList(e)}
+                    onClick={(e) => onDeleteNote(e)}
                 >
                     Delete Note
                 </Button>

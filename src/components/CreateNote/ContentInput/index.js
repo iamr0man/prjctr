@@ -4,7 +4,17 @@ import StarterKit from '@tiptap/starter-kit'
 import MenuBar from "./MenuBar";
 import './index.scss'
 
-const ContentInput = ({ content, noteToEdit, setPastedFlag, setContent }) => {
+const ContentInput = ({ content, noteToEdit, setContent }) => {
+
+    const editor = useEditor({
+        extensions: [
+            StarterKit,
+        ],
+        content: ``,
+        onBlur ({ editor, event }) {
+            setContent(editor.getHTML())
+        },
+    })
 
     useEffect(() => {
         if (!editor) return;
@@ -19,43 +29,6 @@ const ContentInput = ({ content, noteToEdit, setPastedFlag, setContent }) => {
         }
         editor.commands.setContent('')
     }, [noteToEdit])
-
-    const decodeHtml = (html) => {
-        const txt = document.createElement("textarea");
-        txt.innerHTML = html;
-        return txt.value;
-    }
-
-    const checkIsHtml = (decodedContent) => {
-        const isHTMLRegEx = /<(\S*?)[^>]*>.*?<\/\1>|<.*?\/>/g
-        return decodedContent.match(isHTMLRegEx)
-    }
-
-    const editor = useEditor({
-        extensions: [
-            StarterKit,
-        ],
-        content: ``,
-        async onUpdate ({ editor }) {
-            const html = editor.getHTML()
-            const decodedContent = decodeHtml(html)
-
-            if (decodedContent === '') return;
-            const copiedContent = await navigator.clipboard.readText()
-
-            if (copiedContent === '') return;
-            const isPasted = decodedContent.includes('<p>' + copiedContent + '</p>')
-
-            const isHtml = checkIsHtml(decodedContent)
-
-            if (isPasted && isHtml && isHtml.length) {
-                setPastedFlag(true)
-            }
-        },
-        onBlur ({ editor, event }) {
-            setContent(editor.getHTML())
-        },
-    })
 
     return (
         <div>

@@ -1,9 +1,8 @@
 import React, { useContext, useState } from 'react';
 
-import { noteInitialState } from '../reducers/'
+import { noteInitialState } from '../reducers/note'
 import {
     initNoteList,
-    selectNote,
     createNote,
     editNote,
     updateNote,
@@ -16,7 +15,6 @@ export const useNoteState = () => {
     const [state, dispatch] = useContext(NoteListContext)
     const [actions] = useState(() => ({
         initNoteList: initNoteList(dispatch),
-        selectNote: selectNote(dispatch),
         createNote: createNote(dispatch),
         editNote: editNote(dispatch),
         updateNote: updateNote(dispatch),

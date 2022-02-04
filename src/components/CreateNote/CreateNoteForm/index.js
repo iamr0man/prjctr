@@ -7,13 +7,11 @@ import CreateNoteFormView from "./CreateNoteFormView";
 import {useNoteState} from "../../../store/modules/NoteState";
 
 function CreateNoteForm(props) {
-    const [state, action] = useNoteState()
+    const [state, actions] = useNoteState()
     const { noteToEdit } = state
 
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
-
-    const [isHtmlPasted, setPastedFlag] = useState(false)
 
     const [form] = Form.useForm();
 
@@ -37,16 +35,15 @@ function CreateNoteForm(props) {
         form.resetFields();
         setTitle('')
         setContent('')
-        setPastedFlag(false)
     }
 
     const onFinish = () => {
         if (!noteToEdit) {
-            action.createNote({ title, content })
+            actions.createNote({ title, content })
             clearFormState()
             return
         }
-        action.updateNote({ id: noteToEdit.id, title, content })
+        actions.updateNote({ id: noteToEdit.id, title, content })
     };
 
     return (
@@ -58,7 +55,6 @@ function CreateNoteForm(props) {
             content={content}
             setContent={setContent}
             noteToEdit={noteToEdit}
-            setPastedFlag={setPastedFlag}
        />
     );
 }

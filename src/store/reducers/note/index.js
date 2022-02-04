@@ -1,26 +1,10 @@
-import { SET_NOTE_LIST, CREATE_NOTE, SELECT_NOTE, NOTE_TO_EDIT, TOGGLE_CREATE_FORM } from '../actions/types'
-
-export const formInitialState = {
-    isCreateFormOpen: true
-}
-export const formListReducer = (state, event) => {
-    const { type, payload } = event
-
-    switch (type) {
-        case TOGGLE_CREATE_FORM:
-            return {
-                ...state,
-                isCreateFormOpen: payload
-            }
-    }
-}
+import { SET_NOTE_LIST, CREATE_NOTE, SELECT_NOTE, NOTE_TO_EDIT } from '../../actions/types'
 
 export const noteInitialState = {
     notes: [],
     selectedNote: null,
     noteToEdit: null,
 };
-
 export const noteListReducer = (state, event) => {
     const { type, payload } = event;
 

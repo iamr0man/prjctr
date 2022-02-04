@@ -8,45 +8,51 @@ import {useFormState} from "../../store/modules/FormState";
 const { Search } = Input;
 
 function NoteList () {
-    const [state, action] = useNoteState()
+    const [state, actions] = useNoteState()
     const [_, formAction] = useFormState()
 
+    const [filteredArray, setFilteredArray] = useState(state.notes)
+
     const openCreateNoteForm = () => {
-        action.editNote(null)
+        actions.editNote(null)
         formAction.toggleCreateForm(true)
     }
 
-    const filterValue = (item, searchedValue) => item.title.includes(searchedValue) || item.content.includes(searchedValue)
+    const filterCondition = (item, searchedValue) => item.title.includes(searchedValue) || item.content.includes(searchedValue)
+
+    const filterNotes = (searchedValue) => {
+        const filteredArray = state.notes.filter(item => filterCondition(item, searchedValue))
+        setFilteredArray(filteredArray)
+    }
 
     return <NoteListView
-        noteList={state.notes}
-        openCreateNoteForm={openCreateNoteForm}
-        filterValue={filterValue}
+        noteList={filteredArray}
+        onCreateNote={openCreateNoteForm}
+        onSearchChange={filterNotes}
     />
 }
 
-function NoteListView ({ noteList, openCreateNoteForm, filterValue }) {
-    const [searchedValue, setSearchedValue] = useState('')
+function NoteListView ({ noteList, onCreateNote, onSearchChange }) {
+    const [_, setSearchedValue] = useState('')
 
     return (
         <div className="note-list">
             <CHeader text="Note List">
                 <Button
                     type="primary"
-                    onClick={() => openCreateNoteForm()}
+                    onClick={() => onCreateNote()}
                 >
                     Create Note
                 </Button>
             </CHeader>
-            <Search placeholder="input search text" onSearch={(value) => setSearchedValue(value)} enterButton />
+            <Search placeholder="input search text" onSearch={(value) => {
+                setSearchedValue(value)
+                onSearchChange(value)
+            }} enterButton />
             <div className="note-list">
-                {
-                    noteList.map(item => {
-                        if (filterValue(item, searchedValue)) {
-                            return <NoteItem item={item} key={item.id} />
-                        }
-                    })
-                }
+                {noteList.map((item) => {
+                    return <NoteItem item={item} key={item.id} />
+                })}
             </div>
         </div>
     )
