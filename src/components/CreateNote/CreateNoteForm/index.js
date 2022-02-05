@@ -6,7 +6,7 @@ import './index.scss'
 import CreateNoteFormView from "./CreateNoteFormView";
 import {useNoteState} from "../../../store/modules/NoteState";
 
-function CreateNoteForm(props) {
+function CreateNoteForm() {
     const [state, actions] = useNoteState()
     const { noteToEdit } = state
 
@@ -39,7 +39,7 @@ function CreateNoteForm(props) {
 
     const onFinish = () => {
         if (!noteToEdit) {
-            actions.createNote({ title, content })
+            actions.createNote({ id: new Date().getTime(), title, content })
             clearFormState()
             return
         }

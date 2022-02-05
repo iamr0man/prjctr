@@ -1,8 +1,7 @@
-import { SET_NOTE_LIST, CREATE_NOTE, SELECT_NOTE, NOTE_TO_EDIT } from '../../actions/types'
+import { SET_NOTE_LIST, CREATE_NOTE, NOTE_TO_EDIT } from '../../actions/types'
 
 export const noteInitialState = {
     notes: [],
-    selectedNote: null,
     noteToEdit: null,
 };
 export const noteListReducer = (state, event) => {
@@ -23,11 +22,6 @@ export const noteListReducer = (state, event) => {
             return {
                 ...state,
                 noteToEdit: payload
-            }
-        case SELECT_NOTE:
-            return {
-                ...state,
-                selectedNote: payload
             }
         default:
             return state;

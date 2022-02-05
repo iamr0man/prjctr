@@ -4,14 +4,15 @@ import {Button, Typography} from 'antd';
 import {useNoteState} from "../../../store/modules/NoteState";
 import {useFormState} from "../../../store/modules/FormState";
 import { stripHtml } from "../../../helpers";
+import { CREATE, VIEW } from "../../../constants";
 
 const { Title, Text } = Typography;
 
 function NoteItem ({ item }) {
-    const [state, actions] = useNoteState()
-    const [_, formAction] = useFormState()
+    const [, actions] = useNoteState()
+    const [formState, formAction] = useFormState()
 
-    const { selectedNote } = state
+    const { selectedNote } = formState
 
     const shortText = useMemo(() => {
         if (item.content.length > 50) {
@@ -21,7 +22,7 @@ function NoteItem ({ item }) {
     }, [item])
 
     const openNoteDetails = () => {
-        formAction.toggleCreateForm(false)
+        formAction.toggleCreateForm(VIEW)
         formAction.selectNote(item)
     }
 
@@ -29,7 +30,7 @@ function NoteItem ({ item }) {
         e.stopPropagation()
 
         actions.editNote(item)
-        formAction.toggleCreateForm(true)
+        formAction.toggleCreateForm(CREATE)
     }
 
     const deleteNoteFromList = (e) => {
@@ -38,7 +39,7 @@ function NoteItem ({ item }) {
         actions.deleteNote(item.id)
 
         if (selectedNote && selectedNote.id === item.id) {
-            formAction.toggleCreateForm(true)
+            formAction.toggleCreateForm(CREATE)
             formAction.selectNote({ title: '', content: '' })
         }
     }
