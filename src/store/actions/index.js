@@ -2,29 +2,17 @@ import {
     CREATE_NOTE,
     SET_NOTE_LIST,
     TOGGLE_CREATE_FORM,
-    UPDATE_NOTE,
     SELECT_NOTE,
     NOTE_TO_EDIT
 } from './types'
 import {NOTE_LIST} from "../../constants";
 
 // init note list
-export const initNoteList = dispatch => () => {
+export const initNoteList = dispatch => (data) => {
     try {
-        const data = localStorage.getItem(NOTE_LIST)
-
-        if (!data) {
-            localStorage.setItem(NOTE_LIST, JSON.stringify([]))
-            dispatch({
-                type: SET_NOTE_LIST,
-                payload: []
-            })
-            return
-        }
-
         dispatch({
             type: SET_NOTE_LIST,
-            payload: JSON.parse(data)
+            payload: data
         })
     } catch {}
 }
@@ -39,10 +27,6 @@ export const selectNote = dispatch => (data) => {
 
 // create note
 export const createNote = dispatch => (data) => {
-    const noteList = JSON.parse(localStorage.getItem(NOTE_LIST))
-    const newNoteList = [...noteList, { id: new Date().getTime(), ...data }]
-    localStorage.setItem(NOTE_LIST, JSON.stringify(newNoteList))
-
     dispatch({
         type: CREATE_NOTE,
         payload: data
