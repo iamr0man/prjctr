@@ -1,38 +1,37 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import './index.scss'
 import NoteDisplayingView from "./NoteDisplayingView";
-import {useNoteState} from "../../store/modules/NoteState";
 import { decodeHtml } from "../../helpers";
+import {useFormState} from "../../store/modules/FormState";
 
-function NoteDisplaying (props) {
-    const [state, actions] = useNoteState()
+function NoteDisplaying () {
+    const [formState] = useFormState()
+
+    const noteDisplayingRef = useRef(null)
 
     useEffect(() => {
-        const noteDisplaying = document.getElementsByClassName('note-displaying')
-
-        iterateTroughNoteAndAddEventToLink(noteDisplaying[0])
-    }, [state.selectedNote])
+        addEventListenerToLink(noteDisplayingRef.current)
+    }, [formState.selectedNote])
 
     const confirmTransition = (e) => {
         e.preventDefault()
-
         if (window.confirm('Are you sure leave out site?')) {
             window.open(e.target.href, '_blank')
         }
     }
 
-    const iterateTroughNoteAndAddEventToLink = (node) => {
-        if (node.tagName === 'A') {
-            node.addEventListener('click', confirmTransition)
-        }
-        if (node.children && node.children.length) {
-            [...node.children].forEach(v => iterateTroughNoteAndAddEventToLink(v))
+    const addEventListenerToLink = (node) => {
+        const HTMLCollectionOfLinks = node.querySelectorAll('a')
+        if (HTMLCollectionOfLinks) {
+            const linkElements = [...HTMLCollectionOfLinks]
+            linkElements.forEach(link => link.addEventListener('click', confirmTransition))
         }
     }
 
     return (
         <NoteDisplayingView
-            selectedNote={state.selectedNote}
+            noteDisplayingRef={noteDisplayingRef}
+            selectedNote={formState.selectedNote}
             decodeHtml={decodeHtml}
         />
     );

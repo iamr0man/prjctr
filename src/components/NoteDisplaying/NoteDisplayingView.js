@@ -2,13 +2,13 @@ import React from 'react';
 import {Typography} from "antd";
 const { Title } = Typography;
 
-function NoteDisplayingView ({ selectedNote, decodeHtml }) {
+function NoteDisplayingView ({ noteDisplayingRef, selectedNote, decodeHtml }) {
     return (
         <>
             {
-                (selectedNote && selectedNote.content)
+                (selectedNote)
                     ? (
-                        <div>
+                        <div ref={noteDisplayingRef}>
                             <Title level={1}>
                                 {selectedNote.title}
                             </Title>
@@ -16,9 +16,6 @@ function NoteDisplayingView ({ selectedNote, decodeHtml }) {
                         </div>)
                     : (
                         <div>
-                            <Title level={1}>
-                                {selectedNote.title}
-                            </Title>
                             <div className="note-displaying">No Content</div>
                         </div>
                     )
