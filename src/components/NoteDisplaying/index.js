@@ -11,7 +11,7 @@ function NoteDisplaying () {
 
     useEffect(() => {
         addEventListenerToLink(noteDisplayingRef.current)
-    }, [formState.selectedNote])
+    }, [formState.note])
 
     const confirmTransition = (e) => {
         e.preventDefault()
@@ -31,7 +31,7 @@ function NoteDisplaying () {
     return (
         <NoteDisplayingView
             noteDisplayingRef={noteDisplayingRef}
-            selectedNote={formState.selectedNote}
+            selectedNote={formState.note}
             decodeHtml={decodeHtml}
         />
     );

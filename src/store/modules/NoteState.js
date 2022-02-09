@@ -4,7 +4,6 @@ import { noteInitialState } from '../reducers/note'
 import {
     initNoteList,
     createNote,
-    editNote,
     updateNote,
     deleteNote
 } from '../actions'
@@ -16,7 +15,6 @@ export const useNoteState = () => {
     const [actions] = useState(() => ({
         initNoteList: initNoteList(dispatch),
         createNote: createNote(dispatch),
-        editNote: editNote(dispatch),
         updateNote: updateNote(dispatch),
         deleteNote: deleteNote(dispatch)
     }))

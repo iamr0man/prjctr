@@ -1,53 +1,42 @@
-import React, {useState} from 'react';
-import {Button, Form, Input} from "antd";
+import React from 'react';
+import {Button, Input} from "antd";
 import ContentInput from "../ContentInput";
 
-function CreateNoteFormView({ form, onFinish, title, setTitle, content, setContent, noteToEdit, setPastedFlag }) {
+function CreateNoteFormView({ form, onFinish, title, content, onChangeNote }) {
     return (
-        <Form
+        <form
             className="create-form"
-            form={form}
             name="basic"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
+            onSubmit={onFinish}
             autoComplete="off"
         >
-            <Form.Item>
-                <Form.Item
-                    name="title"
-                    rules={[
-                        { required: true, message: 'Please input title!' },
-                        { max: 15, message: 'Title must be max 15 characters.' },
-                    ]}
-                >
-                    <Input
-                        placeholder="Title"
-                        value={title}
-                        onInput={(e) => setTitle(e.target.value)}
-                    />
-                </Form.Item>
+            <div className="create-form__row">
+                <Input
+                    placeholder="Title"
+                    value={title}
+                    onInput={(e) => onChangeNote({ key: 'title', value: e.target.value })}
+                />
                 <p
                     className={`create-form__error-text ${title.length > 15 && 'create-form__error-text--active' }`}
                 >
                     {title.length}/15
                 </p>
-            </Form.Item>
+            </div>
 
-            <ContentInput
-                content={content}
-                noteToEdit={noteToEdit}
-                setPastedFlag={setPastedFlag}
-                setContent={setContent}
-            />
+            <div className="create-form__row">
+                <ContentInput
+                    content={content}
+                    onChangeNote={onChangeNote}
+                />
+            </div>
 
-            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type="primary" htmlType="submit">
-                    Submit
-                </Button>
-            </Form.Item>
-        </Form>
+            <Button
+                type="primary"
+                htmlType="submit"
+            >
+                Submit
+            </Button>
+        </form>
     );
 }
 
