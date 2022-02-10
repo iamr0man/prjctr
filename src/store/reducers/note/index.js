@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { SET_NOTE_LIST, CREATE_NOTE } from '../../actions/types'
 
 export const noteInitialState = {
@@ -13,9 +14,13 @@ export const noteListReducer = (state, event) => {
                 notes: payload,
             }
         case CREATE_NOTE:
+            const newNote = {
+                ...payload,
+                id: uuidv4()
+            }
             return {
                 ...state,
-                notes: [...state.notes, payload]
+                notes: [...state.notes, newNote]
             }
         default:
             return state;
