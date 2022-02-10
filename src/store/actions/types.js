@@ -1,5 +1,6 @@
 export const SET_NOTE_LIST = 'SET NOTE LIST'
 export const CREATE_NOTE = 'CREATE NOTE'
-export const SELECT_NOTE = 'SELECT NOTE'
-export const NOTE_TO_EDIT = 'NOTE TO EDIT'
+export const CHANGE_NOTE = 'CHANGE NOTE'
+export const RESET_NOTE = 'RESET NOTE'
 export const TOGGLE_CREATE_FORM = 'TOGGLE CREATE FORM NOTE'
+export const SET_TOUCHED_FLAG = 'SET TOUCHED'

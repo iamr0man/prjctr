@@ -10,7 +10,7 @@ const { Title, Text } = Typography;
 
 function NoteItem ({ item }) {
     const [, actions] = useNoteState()
-    const [formState, formAction] = useFormState()
+    const [formState, formActions] = useFormState()
 
     const { selectedNote } = formState
 
@@ -22,15 +22,15 @@ function NoteItem ({ item }) {
     }, [item])
 
     const openNoteDetails = () => {
-        formAction.toggleCreateForm(VIEW)
-        formAction.selectNote(item)
+        formActions.toggleCreateForm(VIEW)
+        formActions.changeNote(item)
     }
 
     const editNoteDetails = (e) => {
         e.stopPropagation()
 
-        actions.editNote(item)
-        formAction.toggleCreateForm(CREATE)
+        formActions.changeNote(item)
+        formActions.toggleCreateForm(CREATE)
     }
 
     const deleteNoteFromList = (e) => {
@@ -39,8 +39,8 @@ function NoteItem ({ item }) {
         actions.deleteNote(item.id)
 
         if (selectedNote && selectedNote.id === item.id) {
-            formAction.toggleCreateForm(CREATE)
-            formAction.selectNote({ title: '', content: '' })
+            formActions.toggleCreateForm(CREATE)
+            formActions.changeNote({ title: '', content: '' })
         }
     }
 

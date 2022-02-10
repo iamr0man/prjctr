@@ -10,7 +10,7 @@ const { Search } = Input;
 
 function NoteList () {
     const [state, actions] = useNoteState()
-    const [, formAction] = useFormState()
+    const [, formActions] = useFormState()
 
     const [filteredArray, setFilteredArray] = useState([])
 
@@ -19,8 +19,8 @@ function NoteList () {
     }, [state])
 
     const openCreateNoteForm = () => {
-        actions.editNote(null)
-        formAction.toggleCreateForm(CREATE)
+        formActions.resetNote()
+        formActions.toggleCreateForm(CREATE)
     }
 
     const filterCondition = (item, searchedValue) => item.title.includes(searchedValue) || item.content.includes(searchedValue)

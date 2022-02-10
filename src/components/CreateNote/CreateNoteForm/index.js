@@ -1,60 +1,46 @@
-import React, {useEffect, useState} from 'react';
-
-import { Form } from 'antd';
+import React from 'react';
 
 import './index.scss'
 import CreateNoteFormView from "./CreateNoteFormView";
 import {useNoteState} from "../../../store/modules/NoteState";
+import {useFormState} from "../../../store/modules/FormState";
 
 function CreateNoteForm() {
-    const [state, actions] = useNoteState()
-    const { noteToEdit } = state
+    const [, actions] = useNoteState()
+    const [formState, formActions] = useFormState()
 
-    const [title, setTitle] = useState('')
-    const [content, setContent] = useState('')
+    const { note } = formState
+    const { title, content } = note
 
-    const [form] = Form.useForm();
-
-    useEffect(() => {
-        if (noteToEdit) {
-            form.setFieldsValue({
-                title: noteToEdit.title,
-            });
-            setTitle(noteToEdit.title)
-            setContent(noteToEdit.content)
-            return
-        }
-        form.setFieldsValue({
-            title: '',
-        });
-        setTitle('')
-        setContent('')
-    }, [noteToEdit])
-
-    const clearFormState = () => {
-        form.resetFields();
-        setTitle('')
-        setContent('')
+    const changeNote = ({ key, value }) => {
+        formActions.changeNote({ [key]: value })
     }
 
-    const onFinish = () => {
-        if (!noteToEdit) {
+    const clearFormState = (e) => {
+        formActions.resetNote()
+    }
+
+    const onFinish = (e) => {
+        if (formState.form.isValid) {
+            e.preventDefault()
+            if (note.id) {
+                actions.updateNote({ id: note.id, title, content })
+                return
+            }
             actions.createNote({ id: new Date().getTime(), title, content })
             clearFormState()
-            return
         }
-        actions.updateNote({ id: noteToEdit.id, title, content })
     };
 
     return (
        <CreateNoteFormView
-            form={form}
-            onFinish={onFinish}
+            form={formState.form}
             title={title}
-            setTitle={setTitle}
             content={content}
-            setContent={setContent}
-            noteToEdit={noteToEdit}
+            formIsValid={formState.form.isValid}
+            onInputFocus={(value) => formActions.setTouchedFlag(value)}
+            onChangeNote={changeNote}
+            onFinish={onFinish}
        />
     );
 }

@@ -1,8 +1,8 @@
-import { SET_NOTE_LIST, CREATE_NOTE, NOTE_TO_EDIT } from '../../actions/types'
+import { v4 as uuidv4 } from 'uuid';
+import { SET_NOTE_LIST, CREATE_NOTE } from '../../actions/types'
 
 export const noteInitialState = {
     notes: [],
-    noteToEdit: null,
 };
 export const noteListReducer = (state, event) => {
     const { type, payload } = event;
@@ -14,14 +14,13 @@ export const noteListReducer = (state, event) => {
                 notes: payload,
             }
         case CREATE_NOTE:
-            return {
-                ...state,
-                notes: [...state.notes, payload]
+            const newNote = {
+                ...payload,
+                id: uuidv4()
             }
-        case NOTE_TO_EDIT:
             return {
                 ...state,
-                noteToEdit: payload
+                notes: [...state.notes, newNote]
             }
         default:
             return state;

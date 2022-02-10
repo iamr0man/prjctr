@@ -1,9 +1,8 @@
 import {
-    CREATE_NOTE,
-    SET_NOTE_LIST,
+    CHANGE_NOTE,
+    CREATE_NOTE, RESET_NOTE,
+    SET_NOTE_LIST, SET_TOUCHED_FLAG,
     TOGGLE_CREATE_FORM,
-    SELECT_NOTE,
-    NOTE_TO_EDIT
 } from './types'
 import {NOTE_LIST} from "../../constants";
 
@@ -17,14 +16,6 @@ export const initNoteList = dispatch => (data) => {
     } catch {}
 }
 
-// select note for displaying
-export const selectNote = dispatch => (data) => {
-    dispatch({
-        type: SELECT_NOTE,
-        payload: data
-    })
-}
-
 // create note
 export const createNote = dispatch => (data) => {
     dispatch({
@@ -33,10 +24,16 @@ export const createNote = dispatch => (data) => {
     })
 }
 
-//
-export const editNote = dispatch => (data) => {
+export const changeNote = dispatch => (data) => {
     dispatch({
-        type: NOTE_TO_EDIT,
+        type: CHANGE_NOTE,
+        payload: data
+    })
+}
+
+export const resetNote = dispatch => (data) => {
+    dispatch({
+        type: RESET_NOTE,
         payload: data
     })
 }
@@ -70,6 +67,14 @@ export const deleteNote = dispatch => (id) => {
 export const toggleCreateForm = dispatch => (data) => {
     dispatch({
         type: TOGGLE_CREATE_FORM,
+        payload: data
+    })
+}
+
+// toggle create form
+export const setTouchedFlag = dispatch => (data) => {
+    dispatch({
+        type: SET_TOUCHED_FLAG,
         payload: data
     })
 }
