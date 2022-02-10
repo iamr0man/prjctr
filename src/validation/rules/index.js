@@ -1,17 +1,17 @@
-import {IS_NOT_EMPTY, LENGTH_GREATER_THAN} from "../../constants";
+import {IS_NOT_EMPTY, LENGTH_SMALLER_THAN} from "../../constants";
 
 export const isNotEmptyRule = (value) => value && value.length
 export const isLengthGreaterRule = (value, length) => value && value.length <= length
 
-export const isTitleValid = ({ title }) => isNotEmptyRule(title) && !isLengthGreaterRule(title, 15)
-export const isContentValid = ({ content }) => isNotEmptyRule(content) && !isLengthGreaterRule(content, 1000)
+export const isTitleValid = (errors) => errors.title.length === 0
+export const isContentValid = (errors) => errors.content.length === 0
 
-export const isFormValid = ({ title, content }) => {
-    return isTitleValid(title) && isContentValid(content)
+export const isFormValid = (state, errors) => {
+    return state.form.touched.title && state.form.touched.content && isTitleValid(errors) && isContentValid(errors)
 }
 
 export const validate = ({ prop, value, rules }) => {
-    const errors = []
+    let errors = []
     rules.forEach(rule => {
         let ruleName = rule
         let ruleValue;
@@ -23,9 +23,13 @@ export const validate = ({ prop, value, rules }) => {
         }
         switch (ruleName) {
             case IS_NOT_EMPTY:
-                return !isNotEmptyRule(value) && errors.push(`${prop} is required`)
-            case LENGTH_GREATER_THAN:
-                return isLengthGreaterRule(value, ruleValue) && errors.push(`${prop} must be max ${ruleValue} characters.`)
+                const required = isNotEmptyRule(value)
+                if (!required) errors.push(`${prop} is required`)
+                return
+            case LENGTH_SMALLER_THAN:
+                const isLengthValid = isLengthGreaterRule(value, ruleValue)
+                if (!isLengthValid) errors.push(`${prop} must be max ${ruleValue} characters.`)
+                return
             default:
                 return
         }

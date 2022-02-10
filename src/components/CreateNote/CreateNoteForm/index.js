@@ -21,19 +21,24 @@ function CreateNoteForm() {
     }
 
     const onFinish = (e) => {
-        e.preventDefault()
-        if (note.id) {
-            actions.updateNote({ id: note.id, title, content })
-            return
+        if (formState.form.isValid) {
+            e.preventDefault()
+            if (note.id) {
+                actions.updateNote({ id: note.id, title, content })
+                return
+            }
+            actions.createNote({ id: new Date().getTime(), title, content })
+            clearFormState()
         }
-        actions.createNote({ id: new Date().getTime(), title, content })
-        clearFormState()
     };
 
     return (
        <CreateNoteFormView
+            form={formState.form}
             title={title}
             content={content}
+            formIsValid={formState.form.isValid}
+            onInputFocus={(value) => formActions.setTouchedFlag(value)}
             onChangeNote={changeNote}
             onFinish={onFinish}
        />

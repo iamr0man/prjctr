@@ -1,7 +1,7 @@
 import {
     CHANGE_NOTE,
     CREATE_NOTE, RESET_NOTE,
-    SET_NOTE_LIST,
+    SET_NOTE_LIST, SET_TOUCHED_FLAG,
     TOGGLE_CREATE_FORM,
 } from './types'
 import {NOTE_LIST} from "../../constants";
@@ -67,6 +67,14 @@ export const deleteNote = dispatch => (id) => {
 export const toggleCreateForm = dispatch => (data) => {
     dispatch({
         type: TOGGLE_CREATE_FORM,
+        payload: data
+    })
+}
+
+// toggle create form
+export const setTouchedFlag = dispatch => (data) => {
+    dispatch({
+        type: SET_TOUCHED_FLAG,
         payload: data
     })
 }
