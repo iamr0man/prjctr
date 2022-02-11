@@ -1,4 +1,4 @@
-import React from 'react';
+import React  from 'react';
 
 import './index.scss'
 import CreateNoteFormView from "./CreateNoteFormView";
@@ -24,10 +24,10 @@ function CreateNoteForm() {
         if (formState.form.isValid) {
             e.preventDefault()
             if (note.id) {
-                actions.updateNote({ id: note.id, title, content })
+                actions.updateNote({id: note.id, title, content})
                 return
             }
-            actions.createNote({ id: new Date().getTime(), title, content })
+            actions.createNote({title, content})
             clearFormState()
         }
     };

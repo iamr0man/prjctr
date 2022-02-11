@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import NoteItem from "./NoteItem";
 import CHeader from "../Common/CHeader";
 import './index.scss'
-import { CREATE } from "../../constants";
+import { CREATE_FORM_MODE } from "../../constants";
 import {useNoteState} from "../../store/modules/NoteState";
 import {useFormState} from "../../store/modules/FormState";
 import { Button, Input } from 'antd';
@@ -20,7 +20,7 @@ function NoteList () {
 
     const openCreateNoteForm = () => {
         formActions.resetNote()
-        formActions.toggleCreateForm(CREATE)
+        formActions.toggleCreateForm(CREATE_FORM_MODE)
     }
 
     const filterCondition = (item, searchedValue) => item.title.includes(searchedValue) || item.content.includes(searchedValue)

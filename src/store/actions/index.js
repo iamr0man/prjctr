@@ -8,12 +8,10 @@ import {NOTE_LIST} from "../../constants";
 
 // init note list
 export const initNoteList = dispatch => (data) => {
-    try {
-        dispatch({
-            type: SET_NOTE_LIST,
-            payload: data
-        })
-    } catch {}
+    dispatch({
+        type: SET_NOTE_LIST,
+        payload: data
+    })
 }
 
 // create note

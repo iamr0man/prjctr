@@ -1,8 +1,9 @@
 import React from 'react';
 import {Button, Input} from "antd";
 import ContentInput from "../ContentInput";
+import { MAX_TITLE_LENGTH } from "../../../constants";
 
-function CreateNoteFormView({ form, onFinish, title, content, onInputFocus, onChangeNote, formIsValid }) {
+function CreateNoteFormView({ form, title, content, formIsValid, onInputFocus, onChangeNote, onFinish }) {
     return (
         <form
             className="create-form"
@@ -19,9 +20,9 @@ function CreateNoteFormView({ form, onFinish, title, content, onInputFocus, onCh
                 />
                 {form.touched.title && form.errors.title.length > 0 && <span className='create-form__error-text create-form__error-title-text create-form__error-text--active'>{form.errors.title[0]}</span>}
                 <p
-                    className={`create-form__error-counter ${title.length > 15 ? 'create-form__error-counter--active' : '' }`}
+                    className={`create-form__error-counter ${title.length > MAX_TITLE_LENGTH ? 'create-form__error-counter--active' : '' }`}
                 >
-                    {title.length}/15
+                    {title.length}/{MAX_TITLE_LENGTH}
                 </p>
             </div>
 

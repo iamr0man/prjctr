@@ -4,7 +4,7 @@ import {Button, Typography} from 'antd';
 import {useNoteState} from "../../../store/modules/NoteState";
 import {useFormState} from "../../../store/modules/FormState";
 import { stripHtml } from "../../../helpers";
-import { CREATE, VIEW } from "../../../constants";
+import { CREATE_FORM_MODE, VIEW_FORM_MODE } from "../../../constants";
 
 const { Title, Text } = Typography;
 
@@ -22,7 +22,7 @@ function NoteItem ({ item }) {
     }, [item])
 
     const openNoteDetails = () => {
-        formActions.toggleCreateForm(VIEW)
+        formActions.toggleCreateForm(VIEW_FORM_MODE)
         formActions.changeNote(item)
     }
 
@@ -30,7 +30,7 @@ function NoteItem ({ item }) {
         e.stopPropagation()
 
         formActions.changeNote(item)
-        formActions.toggleCreateForm(CREATE)
+        formActions.toggleCreateForm(CREATE_FORM_MODE)
     }
 
     const deleteNoteFromList = (e) => {
@@ -39,7 +39,7 @@ function NoteItem ({ item }) {
         actions.deleteNote(item.id)
 
         if (selectedNote && selectedNote.id === item.id) {
-            formActions.toggleCreateForm(CREATE)
+            formActions.toggleCreateForm(CREATE_FORM_MODE)
             formActions.changeNote({ title: '', content: '' })
         }
     }

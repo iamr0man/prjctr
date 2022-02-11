@@ -6,7 +6,7 @@ import { getNoteList, saveNewList } from "./store/localStorage";
 import CreateNote from "./components/CreateNote";
 import NoteDisplaying from "./components/NoteDisplaying";
 import NoteList from "./components/NoteList";
-import {CREATE, VIEW} from "./constants";
+import {CREATE_FORM_MODE, VIEW_FORM_MODE} from "./constants";
 
 function App() {
     const [state, actions] = useNoteState()
@@ -23,8 +23,8 @@ function App() {
 
     return (
         <div className="app">
-            {formState.noteMode === CREATE && <CreateNote />}
-            {formState.noteMode === VIEW && <NoteDisplaying />}
+            {formState.noteMode === CREATE_FORM_MODE && <CreateNote />}
+            {formState.noteMode === VIEW_FORM_MODE && <NoteDisplaying />}
             <NoteList />
         </div>
     )
