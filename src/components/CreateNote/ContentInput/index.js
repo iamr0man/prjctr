@@ -4,7 +4,7 @@ import StarterKit from '@tiptap/starter-kit'
 import MenuBar from "./MenuBar";
 import './index.scss'
 
-const ContentInput = ({ content, onInputFocus, onChangeNote }) => {
+const ContentInput = ({ content, onInputFocus, onChangeNoteContent }) => {
 
     const editor = useEditor({
         extensions: [
@@ -17,10 +17,10 @@ const ContentInput = ({ content, onInputFocus, onChangeNote }) => {
         onUpdate ({ editor}) {
             const existText = editor.getText()
             if (!existText){
-                onChangeNote({ key: 'content', value: '' })
+                onChangeNoteContent('')
                 return
             }
-            onChangeNote({ key: 'content', value: editor.getHTML() })
+            onChangeNoteContent(editor.getHTML())
         }
     })
 

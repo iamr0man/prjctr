@@ -12,7 +12,7 @@ function NoteItem ({ item }) {
     const [, actions] = useNoteState()
     const [formState, formActions] = useFormState()
 
-    const { selectedNote } = formState
+    const { note } = formState
 
     const shortText = useMemo(() => {
         if (item.content.length > 50) {
@@ -22,14 +22,18 @@ function NoteItem ({ item }) {
     }, [item])
 
     const openNoteDetails = () => {
-        formActions.toggleCreateForm(VIEW_FORM_MODE)
         formActions.changeNote(item)
+        formActions.toggleCreateForm(VIEW_FORM_MODE)
     }
 
     const editNoteDetails = (e) => {
         e.stopPropagation()
 
         formActions.changeNote(item)
+
+        formActions.setTouchedFlag({ title: true })
+        formActions.setTouchedFlag({ content: true })
+
         formActions.toggleCreateForm(CREATE_FORM_MODE)
     }
 
@@ -38,9 +42,8 @@ function NoteItem ({ item }) {
 
         actions.deleteNote(item.id)
 
-        if (selectedNote && selectedNote.id === item.id) {
-            formActions.toggleCreateForm(CREATE_FORM_MODE)
-            formActions.changeNote({ title: '', content: '' })
+        if (note && note.id === item.id) {
+            formActions.resetNote()
         }
     }
 

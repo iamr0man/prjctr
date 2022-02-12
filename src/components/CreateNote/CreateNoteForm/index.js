@@ -12,8 +12,12 @@ function CreateNoteForm() {
     const { note } = formState
     const { title, content } = note
 
-    const changeNote = ({ key, value }) => {
-        formActions.changeNote({ [key]: value })
+    const changeNoteTitle = (value) => {
+        formActions.changeNoteTitle(value)
+    }
+
+    const changeNoteContent = (value) => {
+        formActions.changeNoteContent(value)
     }
 
     const clearFormState = (e) => {
@@ -24,7 +28,7 @@ function CreateNoteForm() {
         if (formState.form.isValid) {
             e.preventDefault()
             if (note.id) {
-                actions.updateNote({id: note.id, title, content})
+                actions.updateNote(note)
                 return
             }
             actions.createNote({title, content})
@@ -39,7 +43,8 @@ function CreateNoteForm() {
             content={content}
             formIsValid={formState.form.isValid}
             onInputFocus={(value) => formActions.setTouchedFlag(value)}
-            onChangeNote={changeNote}
+            onChangeNoteTitle={changeNoteTitle}
+            onChangeNoteContent={changeNoteContent}
             onFinish={onFinish}
        />
     );

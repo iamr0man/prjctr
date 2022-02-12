@@ -3,7 +3,7 @@ import {Button, Input} from "antd";
 import ContentInput from "../ContentInput";
 import { MAX_TITLE_LENGTH } from "../../../constants";
 
-function CreateNoteFormView({ form, title, content, formIsValid, onInputFocus, onChangeNote, onFinish }) {
+function CreateNoteFormView({ form, title, content, formIsValid, onInputFocus, onChangeNoteTitle, onChangeNoteContent, onFinish }) {
     return (
         <form
             className="create-form"
@@ -16,7 +16,7 @@ function CreateNoteFormView({ form, title, content, formIsValid, onInputFocus, o
                     placeholder="Title"
                     value={title}
                     onFocus={() => onInputFocus({ title: true })}
-                    onInput={(e) => onChangeNote({ key: 'title', value: e.target.value })}
+                    onInput={(e) => onChangeNoteTitle(e.target.value)}
                 />
                 {form.touched.title && form.errors.title.length > 0 && <span className='create-form__error-text create-form__error-title-text create-form__error-text--active'>{form.errors.title[0]}</span>}
                 <p
@@ -30,7 +30,7 @@ function CreateNoteFormView({ form, title, content, formIsValid, onInputFocus, o
                 <ContentInput
                     content={content}
                     onInputFocus={() => onInputFocus({ content: true })}
-                    onChangeNote={onChangeNote}
+                    onChangeNoteContent={onChangeNoteContent}
                 />
                 {form.touched.content && form.errors.content.length > 0 && <span className='create-form__error-text create-form__error-content-text create-form__error-text--active'>{form.errors.content[0]}</span>}
             </div>
