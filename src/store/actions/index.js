@@ -1,8 +1,8 @@
 import {
-    CHANGE_NOTE,
-    CREATE_NOTE, RESET_NOTE,
-    SET_NOTE_LIST, SET_TOUCHED_FLAG,
-    TOGGLE_CREATE_FORM,
+    CHANGE_NOTE, CONTENT_CHANGED,
+    CREATE_NOTE, DELETE_NOTE, RESET_NOTE,
+    SET_NOTE_LIST, SET_TOUCHED_FLAG, TITLE_CHANGED,
+    TOGGLE_CREATE_FORM, UPDATE_NOTE,
 } from './types'
 import {NOTE_LIST} from "../../constants";
 
@@ -29,6 +29,19 @@ export const changeNote = dispatch => (data) => {
     })
 }
 
+export const changeNoteTitle = dispatch => (data) => {
+    dispatch({
+        type: TITLE_CHANGED,
+        payload: data
+    })
+}
+export const changeNoteContent = dispatch => (data) => {
+    dispatch({
+        type: CONTENT_CHANGED,
+        payload: data
+    })
+}
+
 export const resetNote = dispatch => (data) => {
     dispatch({
         type: RESET_NOTE,
@@ -37,27 +50,18 @@ export const resetNote = dispatch => (data) => {
 }
 
 export const updateNote = dispatch => (newData) => {
-    const noteList = JSON.parse(localStorage.getItem(NOTE_LIST))
-    let noteIndexToUpdate = noteList.findIndex(v => v.id === newData.id)
-    noteList[noteIndexToUpdate] = newData
-    localStorage.setItem(NOTE_LIST, JSON.stringify(noteList))
-
     dispatch({
-        type: SET_NOTE_LIST,
-        payload: noteList
+        type: UPDATE_NOTE,
+        payload: newData
     })
 }
 
 
 // delete note
 export const deleteNote = dispatch => (id) => {
-    const noteList = JSON.parse(localStorage.getItem(NOTE_LIST))
-    const newNoteList = noteList.filter(v => v.id !== id)
-
-    localStorage.setItem(NOTE_LIST, JSON.stringify(newNoteList))
     dispatch({
-        type: SET_NOTE_LIST,
-        payload: newNoteList
+        type: DELETE_NOTE,
+        payload: id
     })
 }
 
