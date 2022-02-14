@@ -2,41 +2,66 @@ import React, {useEffect, useState} from 'react';
 import NoteItem from "./NoteItem";
 import CHeader from "../Common/CHeader";
 import './index.scss'
+import { CREATE_FORM_MODE } from "../../constants";
+import {useNoteState} from "../../store/modules/NoteState";
+import {useFormState} from "../../store/modules/FormState";
 import { Button, Input } from 'antd';
-import {useDispatch, useSelector} from "react-redux";
-import { editNote, toggleCreateForm } from '../../store/actions/index'
 const { Search } = Input;
 
-function NoteList (props) {
-    const [searchedValue, setSearchedValue] = useState('')
+function NoteList () {
+    const [state, actions] = useNoteState()
+    const [, formActions] = useFormState()
 
-    let noteList = useSelector(state => state.notes)
-    const dispatch = useDispatch()
+    const [filteredArray, setFilteredArray] = useState([])
+
+    useEffect(() => {
+        setFilteredArray(state.notes)
+    }, [state])
 
     const openCreateNoteForm = () => {
-        dispatch(editNote(null))
-        dispatch(toggleCreateForm(true))
+        formActions.resetNote()
+        formActions.toggleCreateForm(CREATE_FORM_MODE)
     }
+
+    const filterCondition = (item, searchedValue) => item.title.includes(searchedValue) || item.content.includes(searchedValue)
+
+    const filterNotes = (searchedValue) => {
+        const filteredArray = state.notes.filter(item => filterCondition(item, searchedValue))
+        setFilteredArray(filteredArray)
+    }
+
+    return <NoteListView
+        noteList={filteredArray}
+        onCreateNote={openCreateNoteForm}
+        onSearchChange={filterNotes}
+    />
+}
+
+function NoteListView ({ noteList, onCreateNote, onSearchChange }) {
+    const [, setSearchedValue] = useState('')
 
     return (
         <div className="note-list">
             <CHeader text="Note List">
                 <Button
                     type="primary"
-                    onClick={() => openCreateNoteForm()}
+                    onClick={() => onCreateNote()}
                 >
                     Create Note
                 </Button>
             </CHeader>
-            <Search placeholder="input search text" onSearch={(value) => setSearchedValue(value)} enterButton />
+            <Search
+                placeholder="input search text"
+                onSearch={(value) => {
+                    setSearchedValue(value)
+                    onSearchChange(value)
+                }}
+                enterButton
+            />
             <div className="note-list">
-                {
-                    noteList.map(v => {
-                        if (v.title.includes(searchedValue) || v.content.includes(searchedValue)) {
-                            return <NoteItem item={v} key={v.id} />
-                        }
-                    })
-                }
+                {noteList.map((item) => {
+                    return <NoteItem item={item} key={item.id} />
+                })}
             </div>
         </div>
     )

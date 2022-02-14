@@ -1,8 +1,25 @@
 .create-form {
+  &__row {
+    position: relative;
+    margin-bottom: 20px;
+  }
   &__error-text {
     position: absolute;
+    left: 0;
+    &--active {
+      color: #ff4d4f;
+    }
+  }
+  &__error-title-text {
+    top: 31px;
+  }
+  &__error-content-text {
+    bottom: -19px;
+  }
+  &__error-counter {
+    position: absolute;
     right: 0;
-    bottom: -11px;
+    bottom: -35px;
     &--active {
       color: #ff4d4f;
     }

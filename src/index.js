@@ -4,14 +4,16 @@ import './index.css';
 import 'antd/dist/antd.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {Provider} from "react-redux";
-import store from "./store";
+import {FormProvider} from "./components/Providers/form";
+import {NoteListProvider} from "./components/Providers/note";
 
 ReactDOM.render(
   <React.StrictMode>
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <FormProvider>
+          <NoteListProvider>
+            <App />
+          </NoteListProvider>
+      </FormProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

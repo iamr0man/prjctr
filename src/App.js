@@ -1,32 +1,33 @@
-import { useEffect } from "react";
 import './App.scss';
-
-import CreateNote from "./components/CreateNote/index";
-import NoteList from "./components/NoteList";
+import {useNoteState} from "./store/modules/NoteState";
+import {useFormState} from "./store/modules/FormState";
+import React, {useEffect } from "react";
+import { getNoteList, saveNewList } from "./store/localStorage";
+import CreateNote from "./components/CreateNote";
 import NoteDisplaying from "./components/NoteDisplaying";
-
-import {useDispatch, useSelector} from 'react-redux'
-import { initNoteList } from './store/actions/'
+import NoteList from "./components/NoteList";
+import {CREATE_FORM_MODE, VIEW_FORM_MODE} from "./constants";
 
 function App() {
-    const isCreateFormOpen = useSelector(state => state.isCreateFormOpen)
-
-    const dispatch = useDispatch()
+    const [state, actions] = useNoteState()
+    const [formState] = useFormState()
 
     useEffect(() => {
-        dispatch(initNoteList())
-    }, [dispatch])
+        const data = getNoteList()
+        actions.initNoteList(data)
+    }, [])
+
+    useEffect(() => {
+        saveNewList(state.notes)
+    }, [state.notes])
 
     return (
         <div className="app">
-            {
-                isCreateFormOpen
-                    ? <CreateNote />
-                    : <NoteDisplaying />
-            }
+            {formState.noteMode === CREATE_FORM_MODE && <CreateNote />}
+            {formState.noteMode === VIEW_FORM_MODE && <NoteDisplaying />}
             <NoteList />
         </div>
-    );
+    )
 }
 
 export default App;

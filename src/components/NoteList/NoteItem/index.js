@@ -1,83 +1,97 @@
 import React, {useMemo} from 'react';
 import './index.scss'
 import {Button, Typography} from 'antd';
-import {useDispatch, useSelector} from "react-redux";
-import { selectNote, toggleCreateForm, editNote, deleteNote } from "../../../store/actions";
+import {useNoteState} from "../../../store/modules/NoteState";
+import {useFormState} from "../../../store/modules/FormState";
+import { stripHtml } from "../../../helpers";
+import { CREATE_FORM_MODE, VIEW_FORM_MODE } from "../../../constants";
 
 const { Title, Text } = Typography;
 
 function NoteItem ({ item }) {
-    const selectedNote = useSelector(state => state.selectedNote)
-    const dispatch = useDispatch()
+    const [, actions] = useNoteState()
+    const [formState, formActions] = useFormState()
+
+    const { note } = formState
 
     const shortText = useMemo(() => {
         if (item.content.length > 50) {
-            return item.content.slice(0, 50) + '...'
+            return stripHtml(item.content.slice(0, 50)) + '...'
         }
         return item.content
     }, [item])
 
-    function stripHtml(html) {
-        let tmp = document.createElement("DIV");
-        tmp.innerHTML = html;
-        return tmp.textContent || tmp.innerText || "";
-    }
-
     const openNoteDetails = () => {
-        dispatch(toggleCreateForm(false))
-        dispatch(selectNote(item))
+        formActions.changeNote(item)
+        formActions.toggleCreateForm(VIEW_FORM_MODE)
     }
 
     const editNoteDetails = (e) => {
         e.stopPropagation()
 
-        dispatch(editNote(item))
-        dispatch(toggleCreateForm(true))
+        formActions.changeNote(item)
+
+        formActions.setTouchedFlag({ title: true })
+        formActions.setTouchedFlag({ content: true })
+
+        formActions.toggleCreateForm(CREATE_FORM_MODE)
     }
 
     const deleteNoteFromList = (e) => {
         e.stopPropagation()
 
-        dispatch(deleteNote(item.id))
+        actions.deleteNote(item.id)
 
-        if (selectedNote && selectedNote.id === item.id) {
-            dispatch(toggleCreateForm(true))
-            dispatch(selectNote({ title: '', content: '' }))
+        if (note && note.id === item.id) {
+            formActions.resetNote()
         }
     }
 
     return (
+        <NoteItemView
+            title={item.title}
+            content={shortText}
+            onClickNote={openNoteDetails}
+            onEditNote={editNoteDetails}
+            onDeleteNote={deleteNoteFromList}
+        />
+    );
+}
+
+function NoteItemView ({ title, content, onClickNote, onEditNote, onDeleteNote }) {
+
+    return (
         <div
             className="note-item"
-            onClick={() => openNoteDetails()}
+            onClick={() => onClickNote()}
         >
             <Title
                 level={3}
                 className="note-item__title"
             >
-                {item.title}
+                {title}
             </Title>
             <Text
                 className="note-item__text"
             >
-                <div dangerouslySetInnerHTML={{ __html: stripHtml(shortText) }} />
+                <div dangerouslySetInnerHTML={{ __html: content }} />
             </Text>
             <div className="note-item__row">
                 <Button
                     type="primary"
-                    onClick={(e) => editNoteDetails(e)}
+                    onClick={(e) => onEditNote(e)}
                 >
                     Edit Note
                 </Button>
                 <Button
                     type="danger"
-                    onClick={(e) => deleteNoteFromList(e)}
+                    onClick={(e) => onDeleteNote(e)}
                 >
                     Delete Note
                 </Button>
             </div>
         </div>
-    );
+    )
 }
 
 export default NoteItem;
