@@ -3,7 +3,7 @@ import './index.scss'
 import CHeader from "../Common/CHeader";
 import CreateNoteForm from "./CreateNoteForm";
 
-function CreateNote(props) {
+function CreateNote() {
     return (
         <div className="create-note">
             <CHeader text={'Create New Note'} level={2} />
