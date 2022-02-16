@@ -2,7 +2,7 @@ import {SET_PATH} from '../../actions/types'
 
 export const navigationInitialState = {
     router: {
-        pathName: '/note-list',
+        pathName: '/',
         params: {
             id: null
         }

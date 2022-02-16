@@ -2,7 +2,7 @@ import {
     CHANGE_NOTE, CONTENT_CHANGED,
     CREATE_NOTE, DELETE_NOTE, RESET_NOTE,
     SET_NOTE_LIST, SET_PATH, SET_TOUCHED_FLAG, TITLE_CHANGED,
-    UPDATE_NOTE
+    UPDATE_NOTE, DO_LOGIN, DO_LOGOUT
 } from './types'
 
 // init note list
@@ -76,4 +76,14 @@ export const setPath = dispatch => (data) => {
         type: SET_PATH,
         payload: data
     })
+}
+
+export const doLogin = dispatch => (data) => {
+    dispatch({
+        type: DO_LOGIN,
+        payload: data
+    })
+}
+export const doLogout = dispatch => () => {
+    dispatch({ type: DO_LOGOUT })
 }

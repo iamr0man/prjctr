@@ -8,22 +8,24 @@ import reportWebVitals from './reportWebVitals';
 import {FormProvider} from "./components/Providers/form";
 import {NoteListProvider} from "./components/Providers/note";
 import {NavigationProvider} from "./components/Providers/navigation";
+import {AuthProvider} from "./components/Providers/auth";
 
 import { createBrowserHistory } from "history";
-
 export const history = createBrowserHistory();
 
 ReactDOM.render(
   <React.StrictMode>
-      <NavigationProvider>
-          <FormProvider>
-              <NoteListProvider>
-                  <Router history={history}>
-                    <App />
-                  </Router>
-              </NoteListProvider>
-          </FormProvider>
-      </NavigationProvider>
+      <AuthProvider>
+          <NavigationProvider>
+              <FormProvider>
+                  <NoteListProvider>
+                      <Router history={history}>
+                        <App />
+                      </Router>
+                  </NoteListProvider>
+              </FormProvider>
+          </NavigationProvider>
+      </AuthProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
