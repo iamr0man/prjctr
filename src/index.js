@@ -1,19 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Router } from 'react-router-dom';
 import './index.css';
 import 'antd/dist/antd.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {FormProvider} from "./components/Providers/form";
 import {NoteListProvider} from "./components/Providers/note";
+import {NavigationProvider} from "./components/Providers/navigation";
+
+import { createBrowserHistory } from "history";
+
+export const history = createBrowserHistory();
 
 ReactDOM.render(
   <React.StrictMode>
-      <FormProvider>
-          <NoteListProvider>
-            <App />
-          </NoteListProvider>
-      </FormProvider>
+      <NavigationProvider>
+          <FormProvider>
+              <NoteListProvider>
+                  <Router history={history}>
+                    <App />
+                  </Router>
+              </NoteListProvider>
+          </FormProvider>
+      </NavigationProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
