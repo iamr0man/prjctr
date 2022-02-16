@@ -40,12 +40,11 @@ function App() {
 
     useEffect(() => {
         historyPush(navigationState.router)
-    }, [navigationState, navigationState.router])
+    }, [navigationState])
 
     return (
         <div className="app">
             <Switch>
-                {/*<Route exact path="/" component={Home} />*/}
                 <Route path="/form-note/create" component={CreateNote} />
                 <Route path="/form-note/edit/:id" component={CreateNote} />
                 <Route path="/note-details/:id" component={NoteDisplaying} />
