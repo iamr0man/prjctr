@@ -7,23 +7,13 @@ import { getNoteList, saveNewList } from "./store/localStorage";
 import CreateNote from "./components/CreateNote";
 import NoteDisplaying from "./components/NoteDisplaying";
 import NoteList from "./components/NoteList";
-import { history } from "./index";
+import { historyPush } from "./navigation/index";
 import {useNavigationState} from "./store/modules/NavigationState";
 import {NOTE_LIST_PATH_NAME} from "./constants";
 
 function App() {
     const [state, actions] = useNoteState()
     const [navigationState, navigationAction] = useNavigationState()
-
-    const historyPush = (payload) => {
-        let newPath = `${payload.pathName}`
-        if (payload.params) {
-            const paramId = payload.params.id
-            newPath += `${paramId ? `/${paramId}` : ''}`
-        }
-
-        history.push(newPath)
-    }
 
     const isNeedShowReturnBack = useMemo(() => {
         return navigationState.router.pathName !== NOTE_LIST_PATH_NAME

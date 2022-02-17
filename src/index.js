@@ -9,21 +9,19 @@ import {FormProvider} from "./components/Providers/form";
 import {NoteListProvider} from "./components/Providers/note";
 import {NavigationProvider} from "./components/Providers/navigation";
 
-import { createBrowserHistory } from "history";
-
-export const history = createBrowserHistory();
+import { history } from './navigation/index'
 
 ReactDOM.render(
   <React.StrictMode>
-      <NavigationProvider>
-          <FormProvider>
-              <NoteListProvider>
-                  <Router history={history}>
+      <Router history={history}>
+          <NavigationProvider>
+              <FormProvider>
+                  <NoteListProvider>
                     <App />
-                  </Router>
-              </NoteListProvider>
-          </FormProvider>
-      </NavigationProvider>
+                  </NoteListProvider>
+              </FormProvider>
+          </NavigationProvider>
+      </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
