@@ -10,22 +10,21 @@ import {NoteListProvider} from "./components/Providers/note";
 import {NavigationProvider} from "./components/Providers/navigation";
 import {AuthProvider} from "./components/Providers/auth";
 
-import { createBrowserHistory } from "history";
-export const history = createBrowserHistory();
+import { history } from './navigation/index'
 
 ReactDOM.render(
   <React.StrictMode>
-      <AuthProvider>
-          <NavigationProvider>
-              <FormProvider>
-                  <NoteListProvider>
-                      <Router history={history}>
+      <Router history={history}>
+          <AuthProvider>
+              <NavigationProvider>
+                  <FormProvider>
+                      <NoteListProvider>
                         <App />
-                      </Router>
-                  </NoteListProvider>
-              </FormProvider>
-          </NavigationProvider>
-      </AuthProvider>
+                      </NoteListProvider>
+                  </FormProvider>
+              </NavigationProvider>
+          </AuthProvider>
+      </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -7,7 +7,7 @@ import Home from "./components/Home";
 import CreateNote from "./components/CreateNote";
 import NoteDisplaying from "./components/NoteDisplaying";
 import NoteList from "./components/NoteList";
-import { history } from "./index";
+import { historyPush } from "./navigation/index";
 import {useNavigationState} from "./store/modules/NavigationState";
 import {NOTE_LIST_PATH_NAME} from "./constants";
 import {useAuthState} from "./store/modules/AuthState";
@@ -17,16 +17,6 @@ function App() {
     const [state, actions] = useNoteState()
     const [navigationState, navigationAction] = useNavigationState()
     const [authState, authActions] = useAuthState()
-
-    const historyPush = (payload) => {
-        let newPath = `${payload.pathName}`
-        if (payload.params) {
-            const paramId = payload.params.id
-            newPath += `${paramId ? `/${paramId}` : ''}`
-        }
-
-        history.push(newPath)
-    }
 
     const isShowReturnBack = useMemo(() => {
         return authState.isLoggedIn && navigationState.router.pathName !== NOTE_LIST_PATH_NAME
