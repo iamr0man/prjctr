@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from "react";
+import React, {useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import './App.scss';
 import {useNoteState} from "./store/modules/NoteState";
@@ -9,22 +9,11 @@ import NoteDisplaying from "./components/NoteDisplaying";
 import NoteList from "./components/NoteList";
 import { historyPush } from "./navigation/index";
 import {useNavigationState} from "./store/modules/NavigationState";
-import {NOTE_LIST_PATH_NAME} from "./constants";
-import {useAuthState} from "./store/modules/AuthState";
 import Article from "./components/Article";
 
 function App() {
     const [state, actions] = useNoteState()
-    const [navigationState, navigationAction] = useNavigationState()
-    const [authState, authActions] = useAuthState()
-
-    const isShowReturnBack = useMemo(() => {
-        return authState.isLoggedIn && navigationState.router.pathName !== NOTE_LIST_PATH_NAME
-    }, [navigationState])
-
-    const isShowWelcome = useMemo(() => {
-        return authState.isLoggedIn && navigationState.router.pathName === NOTE_LIST_PATH_NAME
-    }, [navigationState])
+    const [navigationState] = useNavigationState()
 
     useEffect(() => {
         const data = getNoteList()
@@ -39,15 +28,6 @@ function App() {
         historyPush(navigationState.router)
     }, [navigationState])
 
-    const goToNoteList = () => {
-        navigationAction.setPath({ pathName: '/note-list'})
-    }
-
-    const doLogout = () => {
-        authActions.doLogout()
-        navigationAction.setPath({ pathName: '/'})
-    }
-
     return (
         <div className="app">
             <Switch>
@@ -57,13 +37,7 @@ function App() {
                 <Route path="/note-details/:id" component={NoteDisplaying} />
                 <Route path="/note-list" component={NoteList} />
             </Switch>
-            <Article
-                showWelcome={isShowWelcome}
-                showReturnBack={isShowReturnBack}
-                userName={authState.userName}
-                onLogout={doLogout}
-                onReturnBack={goToNoteList}
-            />
+            <Article />
         </div>
     )
 }
