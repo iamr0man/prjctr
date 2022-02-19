@@ -11,11 +11,11 @@ function Article () {
 
     const showReturnBack = useMemo(() => {
         return authState.isLoggedIn && navigationState.router.pathName !== NOTE_LIST_PATH_NAME
-    }, [navigationState])
+    }, [authState, navigationState])
 
     const showWelcome = useMemo(() => {
         return authState.isLoggedIn && navigationState.router.pathName === NOTE_LIST_PATH_NAME
-    }, [navigationState])
+    }, [authState, navigationState])
 
     const goToNoteList = () => {
         navigationAction.setPath({ pathName: '/note-list'})
@@ -27,7 +27,7 @@ function Article () {
     }
     return (
         <>
-            {showWelcome && <Welcome userName={userName} onLogout={doLogout}/>}
+            {showWelcome && <Welcome userName={authState.userName} onLogout={doLogout}/>}
             {showReturnBack && <ReturnButton onReturnBack={goToNoteList} />}
         </>
     );
