@@ -1,19 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Router } from 'react-router-dom';
 import './index.css';
 import 'antd/dist/antd.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {FormProvider} from "./components/Providers/form";
 import {NoteListProvider} from "./components/Providers/note";
+import {NavigationProvider} from "./components/Providers/navigation";
+
+import { history } from './navigation/index'
 
 ReactDOM.render(
   <React.StrictMode>
-      <FormProvider>
-          <NoteListProvider>
-            <App />
-          </NoteListProvider>
-      </FormProvider>
+      <Router history={history}>
+          <NavigationProvider>
+              <FormProvider>
+                  <NoteListProvider>
+                    <App />
+                  </NoteListProvider>
+              </FormProvider>
+          </NavigationProvider>
+      </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );

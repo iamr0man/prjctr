@@ -1,10 +1,9 @@
 import {
     CHANGE_NOTE, CONTENT_CHANGED,
     CREATE_NOTE, DELETE_NOTE, RESET_NOTE,
-    SET_NOTE_LIST, SET_TOUCHED_FLAG, TITLE_CHANGED,
-    TOGGLE_CREATE_FORM, UPDATE_NOTE,
+    SET_NOTE_LIST, SET_PATH, SET_TOUCHED_FLAG, TITLE_CHANGED,
+    UPDATE_NOTE
 } from './types'
-import {NOTE_LIST} from "../../constants";
 
 // init note list
 export const initNoteList = dispatch => (data) => {
@@ -65,18 +64,16 @@ export const deleteNote = dispatch => (id) => {
     })
 }
 
-// toggle create form
-export const toggleCreateForm = dispatch => (data) => {
+export const setTouchedFlag = dispatch => (data) => {
     dispatch({
-        type: TOGGLE_CREATE_FORM,
+        type: SET_TOUCHED_FLAG,
         payload: data
     })
 }
 
-// toggle create form
-export const setTouchedFlag = dispatch => (data) => {
+export const setPath = dispatch => (data) => {
     dispatch({
-        type: SET_TOUCHED_FLAG,
+        type: SET_PATH,
         payload: data
     })
 }

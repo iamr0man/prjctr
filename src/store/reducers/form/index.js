@@ -7,7 +7,6 @@ import {
     TOGGLE_CREATE_FORM
 } from "../../actions/types";
 import {getContentErrors, getTitleErrors, isFormValid} from "../../../validation";
-import {CREATE_FORM_MODE} from "../../../constants";
 
 const generateTitleErrors = (state, title) => ({
     ...state.form.errors,
@@ -35,8 +34,7 @@ export const formInitialState = {
             title: false,
             content: false
         }
-    },
-    noteMode: CREATE_FORM_MODE
+    }
 }
 export const formListReducer = (state, event) => {
     const { type, payload } = event

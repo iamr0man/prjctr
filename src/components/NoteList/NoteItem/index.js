@@ -3,14 +3,15 @@ import './index.scss'
 import {Button, Typography} from 'antd';
 import {useNoteState} from "../../../store/modules/NoteState";
 import {useFormState} from "../../../store/modules/FormState";
+import {useNavigationState} from "../../../store/modules/NavigationState";
 import { stripHtml } from "../../../helpers";
-import { CREATE_FORM_MODE, VIEW_FORM_MODE } from "../../../constants";
 
 const { Title, Text } = Typography;
 
 function NoteItem ({ item }) {
     const [, actions] = useNoteState()
     const [formState, formActions] = useFormState()
+    const [, navigationActions] = useNavigationState()
 
     const { note } = formState
 
@@ -23,7 +24,12 @@ function NoteItem ({ item }) {
 
     const openNoteDetails = () => {
         formActions.changeNote(item)
-        formActions.toggleCreateForm(VIEW_FORM_MODE)
+        navigationActions.setPath({
+            pathName: '/note-details',
+            params: {
+                id: item.id
+            }
+        })
     }
 
     const editNoteDetails = (e) => {
@@ -34,7 +40,12 @@ function NoteItem ({ item }) {
         formActions.setTouchedFlag({ title: true })
         formActions.setTouchedFlag({ content: true })
 
-        formActions.toggleCreateForm(CREATE_FORM_MODE)
+        navigationActions.setPath({
+            pathName: '/form-note/edit',
+            params: {
+                id: item.id
+            }
+        })
     }
 
     const deleteNoteFromList = (e) => {

@@ -27,7 +27,7 @@ const ContentInput = ({ content, onInputFocus, onChangeNoteContent }) => {
     useEffect(() => {
         if (!editor) return;
         editor.commands.setContent(content)
-    }, [content])
+    }, [editor, content])
 
     return (
         <div>

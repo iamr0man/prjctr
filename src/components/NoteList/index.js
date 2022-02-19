@@ -2,15 +2,16 @@ import React, {useEffect, useState} from 'react';
 import NoteItem from "./NoteItem";
 import CHeader from "../Common/CHeader";
 import './index.scss'
-import { CREATE_FORM_MODE } from "../../constants";
 import {useNoteState} from "../../store/modules/NoteState";
 import {useFormState} from "../../store/modules/FormState";
+import {useNavigationState} from "../../store/modules/NavigationState";
 import { Button, Input } from 'antd';
 const { Search } = Input;
 
 function NoteList () {
-    const [state, actions] = useNoteState()
+    const [state] = useNoteState()
     const [, formActions] = useFormState()
+    const [, navigationActions] = useNavigationState()
 
     const [filteredArray, setFilteredArray] = useState([])
 
@@ -20,7 +21,7 @@ function NoteList () {
 
     const openCreateNoteForm = () => {
         formActions.resetNote()
-        formActions.toggleCreateForm(CREATE_FORM_MODE)
+        navigationActions.setPath({ pathName: '/form-note/create' })
     }
 
     const filterCondition = (item, searchedValue) => item.title.includes(searchedValue) || item.content.includes(searchedValue)
