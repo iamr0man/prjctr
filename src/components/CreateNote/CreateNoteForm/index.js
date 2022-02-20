@@ -5,11 +5,13 @@ import CreateNoteFormView from "./CreateNoteFormView";
 import {useNoteState} from "../../../store/modules/NoteState";
 import {useFormState} from "../../../store/modules/FormState";
 import {useNavigationState} from "../../../store/modules/NavigationState";
+import AppService from "../../../services/app";
 
 function CreateNoteForm() {
     const [, actions] = useNoteState()
     const [formState, formActions] = useFormState()
     const [, navigationActions] = useNavigationState()
+    const appService = AppService(actions, formActions, navigationActions)
 
     const { note } = formState
     const { title, content } = note
@@ -22,20 +24,14 @@ function CreateNoteForm() {
         formActions.changeNoteContent(value)
     }
 
-    const clearFormState = (e) => {
-        formActions.resetNote()
-    }
-
     const onFinish = (e) => {
         if (formState.form.isValid) {
             e.preventDefault()
             if (note.id) {
-                actions.updateNote(note)
+                appService.updateNote(note)
             } else {
-                actions.createNote({title, content})
-                clearFormState()
+                appService.createNote({ title, content })
             }
-            navigationActions.setPath({ pathName: '/note-list' })
         }
     };
 

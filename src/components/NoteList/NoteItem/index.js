@@ -5,6 +5,7 @@ import {useNoteState} from "../../../store/modules/NoteState";
 import {useFormState} from "../../../store/modules/FormState";
 import {useNavigationState} from "../../../store/modules/NavigationState";
 import { stripHtml } from "../../../helpers";
+import AppService from "../../../services/app";
 
 const { Title, Text } = Typography;
 
@@ -12,6 +13,7 @@ function NoteItem ({ item }) {
     const [, actions] = useNoteState()
     const [formState, formActions] = useFormState()
     const [, navigationActions] = useNavigationState()
+    const appService = AppService(actions, formActions, navigationActions)
 
     const { note } = formState
 
@@ -23,39 +25,17 @@ function NoteItem ({ item }) {
     }, [item])
 
     const openNoteDetails = () => {
-        formActions.changeNote(item)
-        navigationActions.setPath({
-            pathName: '/note-details',
-            params: {
-                id: item.id
-            }
-        })
+        appService.openNote(item)
     }
 
     const editNoteDetails = (e) => {
         e.stopPropagation()
-
-        formActions.changeNote(item)
-
-        formActions.setTouchedFlag({ title: true })
-        formActions.setTouchedFlag({ content: true })
-
-        navigationActions.setPath({
-            pathName: '/form-note/edit',
-            params: {
-                id: item.id
-            }
-        })
+        appService.editNote(item)
     }
 
     const deleteNoteFromList = (e) => {
         e.stopPropagation()
-
-        actions.deleteNote(item.id)
-
-        if (note && note.id === item.id) {
-            formActions.resetNote()
-        }
+        appService.deleteNote(item, note)
     }
 
     return (

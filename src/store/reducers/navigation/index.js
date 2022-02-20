@@ -1,10 +1,14 @@
 import {SET_PATH} from '../../actions/types'
 
+const initialParamsState = {
+    id: null
+}
+
 export const navigationInitialState = {
     router: {
         pathName: '/note-list',
         params: {
-            id: null
+            initialParamsState
         }
     },
 };
@@ -13,11 +17,12 @@ export const navigationReducer = (state, event) => {
 
     switch (type) {
         case SET_PATH:
+            const params = payload.params ? payload.params : initialParamsState
             return {
                 ...state,
                 router: {
-                    ...state.router,
-                    ...payload
+                    ...payload,
+                    params
                 }
             }
         default:
