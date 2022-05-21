@@ -2,16 +2,12 @@ import React  from 'react';
 
 import './index.scss'
 import CreateNoteFormView from "./CreateNoteFormView";
-import {useNoteState} from "../../../store/modules/NoteState";
 import {useFormState} from "../../../store/modules/FormState";
-import {useNavigationState} from "../../../store/modules/NavigationState";
-import AppService from "../../../services/app";
+import {useNoteService} from "../../../services/note";
 
 function CreateNoteForm() {
-    const [, actions] = useNoteState()
     const [formState, formActions] = useFormState()
-    const [, navigationActions] = useNavigationState()
-    const appService = AppService(actions, formActions, navigationActions)
+    const noteService = useNoteService()
 
     const { note } = formState
     const { title, content } = note
@@ -28,9 +24,9 @@ function CreateNoteForm() {
         if (formState.form.isValid) {
             e.preventDefault()
             if (note.id) {
-                appService.updateNote(note)
+                noteService.updateNote(note)
             } else {
-                appService.createNote({ title, content })
+                noteService.createNote({ title, content })
             }
         }
     };

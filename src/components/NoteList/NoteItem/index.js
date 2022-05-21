@@ -5,15 +5,13 @@ import {useNoteState} from "../../../store/modules/NoteState";
 import {useFormState} from "../../../store/modules/FormState";
 import {useNavigationState} from "../../../store/modules/NavigationState";
 import { stripHtml } from "../../../helpers";
-import AppService from "../../../services/app";
+import {useNoteService} from "../../../services/note";
 
 const { Title, Text } = Typography;
 
 function NoteItem ({ item }) {
-    const [, actions] = useNoteState()
-    const [formState, formActions] = useFormState()
-    const [, navigationActions] = useNavigationState()
-    const appService = AppService(actions, formActions, navigationActions)
+    const [formState] = useFormState()
+    const noteService = useNoteService()
 
     const { note } = formState
 
@@ -25,17 +23,17 @@ function NoteItem ({ item }) {
     }, [item])
 
     const openNoteDetails = () => {
-        appService.openNote(item)
+        noteService.openNote(item)
     }
 
     const editNoteDetails = (e) => {
         e.stopPropagation()
-        appService.editNote(item)
+        noteService.editNote(item)
     }
 
     const deleteNoteFromList = (e) => {
         e.stopPropagation()
-        appService.deleteNote(item, note)
+        noteService.deleteNote(item, note)
     }
 
     return (
