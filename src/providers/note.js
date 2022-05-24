@@ -1,6 +1,6 @@
 import React, {useReducer} from "react";
-import {noteInitialState, noteListReducer} from "../../store/reducers/note";
-import {NoteListContext} from "../../store/modules/NoteState";
+import {noteInitialState, noteListReducer} from "../store/reducers/note";
+import {NoteListContext} from "../store/modules/NoteState";
 
 export const NoteListProvider = ({ children }) => {
     const [state, dispatch] = useReducer(noteListReducer, noteInitialState)

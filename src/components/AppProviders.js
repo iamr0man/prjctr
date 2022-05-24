@@ -1,8 +1,8 @@
 import React from 'react';
-import {NavigationProvider} from "./navigation";
-import {FormProvider} from "./form";
-import {NoteListProvider} from "./note";
-import {NoteServiceProvider} from "./noteService";
+import {NavigationProvider} from "../providers/navigation";
+import {FormProvider} from "../providers/form";
+import {NoteListProvider} from "../providers/note";
+import {NoteServiceProvider} from "../providers/noteService";
 
 function AppProviders({ children }) {
   return (
