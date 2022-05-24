@@ -3,15 +3,13 @@ import NoteItem from "./NoteItem";
 import CHeader from "../Common/CHeader";
 import './index.scss'
 import {useNoteState} from "../../store/modules/NoteState";
-import {useFormState} from "../../store/modules/FormState";
-import {useNavigationState} from "../../store/modules/NavigationState";
 import { Button, Input } from 'antd';
+import {useNoteService} from "../../services/note";
 const { Search } = Input;
 
 function NoteList () {
     const [state] = useNoteState()
-    const [, formActions] = useFormState()
-    const [, navigationActions] = useNavigationState()
+    const noteService = useNoteService()
 
     const [filteredArray, setFilteredArray] = useState([])
 
@@ -20,8 +18,7 @@ function NoteList () {
     }, [state])
 
     const openCreateNoteForm = () => {
-        formActions.resetNote()
-        navigationActions.setPath({ pathName: '/form-note/create' })
+        noteService.openFormNote()
     }
 
     const filterCondition = (item, searchedValue) => item.title.includes(searchedValue) || item.content.includes(searchedValue)
