@@ -1,21 +1,15 @@
 import React, {useState} from 'react';
 import HomeView from "./HomeView";
-import {useAuthState} from "../../store/modules/AuthState";
-import {useNavigationState} from "../../store/modules/NavigationState";
+import {useNoteService} from "../../services/note";
 import './index.scss'
 
 function Home () {
     const [userName, setUserName] = useState('')
-    const [, navigationActions] = useNavigationState()
-    const [, authActions] = useAuthState()
+    const noteService = useNoteService()
 
     const doLogin = (e) => {
         e.preventDefault()
-        authActions.doLogin({
-            isLoggedIn: true,
-            userName
-        })
-        navigationActions.setPath({ pathName: '/note-list'})
+        noteService.doLogin(userName)
     }
 
     return (
