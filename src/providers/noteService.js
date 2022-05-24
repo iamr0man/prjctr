@@ -1,15 +1,11 @@
-import React, {useState} from "react";
-import {NoteServiceContext} from "../../services/note";
+import React from "react";
+import {NoteServiceContext} from "../services/note";
 
-import {useNoteState} from "../../store/modules/NoteState";
-import {useNavigationState} from "../../store/modules/NavigationState";
-import {useFormState} from "../../store/modules/FormState";
+import {useNoteState} from "../store/modules/NoteState";
+import {useNavigationState} from "../store/modules/NavigationState";
+import {useFormState} from "../store/modules/FormState";
 
-export const NoteServiceProvider = ({ children }) => {
-    const [, noteActions] = useNoteState()
-    const [, navigationActions] = useNavigationState()
-    const [, formActions] = useFormState()
-
+const createNoteServiceProvider = (noteActions, navigationActions, formActions) => {
     const createNote = (payload) => {
         noteActions.createNote(payload)
         formActions.resetNote()
@@ -58,18 +54,26 @@ export const NoteServiceProvider = ({ children }) => {
         navigationActions.setPath({ pathName: '/form-note/create' })
     }
 
-    const [actions] = useState(() => ({
+    return {
         createNote,
         updateNote,
         openNote,
         editNote,
         deleteNote,
         openFormNote
-    }))
+    }
+}
+
+export const NoteServiceProvider = ({ children }) => {
+    const [, noteActions] = useNoteState()
+    const [, navigationActions] = useNavigationState()
+    const [, formActions] = useFormState()
+
+    const actions = createNoteServiceProvider(noteActions, navigationActions, formActions)
 
     return (
-        <NoteServiceContext.Provider value={actions}>
-            {children}
-        </NoteServiceContext.Provider>
+      <NoteServiceContext.Provider value={actions}>
+          {children}
+      </NoteServiceContext.Provider>
     )
 }
