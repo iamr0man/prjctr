@@ -5,7 +5,6 @@ import {
     UPDATE_NOTE, DO_LOGIN, DO_LOGOUT
 } from './types'
 
-// init note list
 export const initNoteList = dispatch => (data) => {
     dispatch({
         type: SET_NOTE_LIST,
@@ -13,7 +12,6 @@ export const initNoteList = dispatch => (data) => {
     })
 }
 
-// create note
 export const createNote = dispatch => (data) => {
     dispatch({
         type: CREATE_NOTE,
@@ -55,8 +53,6 @@ export const updateNote = dispatch => (newData) => {
     })
 }
 
-
-// delete note
 export const deleteNote = dispatch => (id) => {
     dispatch({
         type: DELETE_NOTE,

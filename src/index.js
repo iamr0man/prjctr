@@ -5,26 +5,17 @@ import './index.css';
 import 'antd/dist/antd.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {FormProvider} from "./components/Providers/form";
-import {NoteListProvider} from "./components/Providers/note";
-import {NavigationProvider} from "./components/Providers/navigation";
-import {AuthProvider} from "./components/Providers/auth";
+import AppProviders from "./components/AppProviders";
 
 import { history } from './navigation/index'
 
 ReactDOM.render(
   <React.StrictMode>
-      <Router history={history}>
-          <AuthProvider>
-              <NavigationProvider>
-                  <FormProvider>
-                      <NoteListProvider>
-                        <App />
-                      </NoteListProvider>
-                  </FormProvider>
-              </NavigationProvider>
-          </AuthProvider>
-      </Router>
+    <Router history={history}>
+      <AppProviders>
+        <App />
+      </AppProviders>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );

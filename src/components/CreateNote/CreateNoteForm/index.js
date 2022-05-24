@@ -2,14 +2,12 @@ import React  from 'react';
 
 import './index.scss'
 import CreateNoteFormView from "./CreateNoteFormView";
-import {useNoteState} from "../../../store/modules/NoteState";
 import {useFormState} from "../../../store/modules/FormState";
-import {useNavigationState} from "../../../store/modules/NavigationState";
+import {useNoteService} from "../../../services/note";
 
 function CreateNoteForm() {
-    const [, actions] = useNoteState()
     const [formState, formActions] = useFormState()
-    const [, navigationActions] = useNavigationState()
+    const noteService = useNoteService()
 
     const { note } = formState
     const { title, content } = note
@@ -22,20 +20,14 @@ function CreateNoteForm() {
         formActions.changeNoteContent(value)
     }
 
-    const clearFormState = (e) => {
-        formActions.resetNote()
-    }
-
     const onFinish = (e) => {
         if (formState.form.isValid) {
             e.preventDefault()
             if (note.id) {
-                actions.updateNote(note)
+                noteService.updateNote(note)
             } else {
-                actions.createNote({title, content})
-                clearFormState()
+                noteService.createNote({ title, content })
             }
-            navigationActions.setPath({ pathName: '/note-list' })
         }
     };
 
