@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 
 import { formInitialState } from '../reducers/form'
-import { changeNoteTitle, changeNoteContent, resetNote, setTouchedFlag, changeNote} from '../actions'
+import { changeNoteTitle, changeNoteContent, resetNote, setTouchedFlag, changeNote} from '../actions/form'
 
 export const FormContext = React.createContext([formInitialState, () => undefined])
 

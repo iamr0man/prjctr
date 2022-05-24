@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 
 import { navigationInitialState } from '../reducers/navigation'
-import { setPath } from '../actions'
+import { setPath } from '../actions/navigation'
 
 export const NavigationContext = React.createContext([navigationInitialState, () => undefined])
 

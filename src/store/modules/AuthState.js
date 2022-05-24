@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 
 import { authInitialState } from '../reducers/auth'
-import { doLogin, doLogout } from '../actions'
+import { doLogin, doLogout } from '../actions/auth'
 
 export const AuthContext = React.createContext([authInitialState, () => undefined])
 
