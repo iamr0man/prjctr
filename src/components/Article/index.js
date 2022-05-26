@@ -1,23 +1,20 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 import ReturnButton from "./ReturnButton";
 import Welcome from "./Welcome/";
 import {useAuthState} from "../../store/modules/AuthState";
 import {NOTE_LIST_PATH_NAME} from "../../constants";
 import {useNavigationState} from "../../store/modules/NavigationState";
-import {useNoteService} from "../../services/note";
+import {useAuthService} from "../../services/auth";
+
 
 function Article () {
     const [navigationState, navigationAction] = useNavigationState()
     const [authState] = useAuthState()
-    const noteService = useNoteService()
+    const authService = useAuthService()
 
-    const showReturnBack = useMemo(() => {
-        return authState.isLoggedIn && navigationState.router.pathName !== NOTE_LIST_PATH_NAME
-    }, [authState, navigationState])
+    const showReturnBack = authState.isLoggedIn && navigationState.router.pathName !== NOTE_LIST_PATH_NAME
 
-    const showWelcome = useMemo(() => {
-        return authState.isLoggedIn && navigationState.router.pathName === NOTE_LIST_PATH_NAME
-    }, [authState, navigationState])
+    const showWelcome = authState.isLoggedIn && navigationState.router.pathName === NOTE_LIST_PATH_NAME
 
     const goToNoteList = () => {
         navigationAction.setPath({ pathName: '/note-list'})
@@ -25,7 +22,7 @@ function Article () {
 
     return (
         <>
-            {showWelcome && <Welcome userName={authState.userName} onLogout={noteService.doLogout}/>}
+            {showWelcome && <Welcome userName={authState.userName} onLogout={authService.logout}/>}
             {showReturnBack && <ReturnButton onReturnBack={goToNoteList} />}
         </>
     );
