@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
 import HomeView from "./HomeView";
-import {useNoteService} from "../../services/note";
 import './index.scss'
+import {useAuthService} from "../../services/auth";
 
 function Home () {
     const [userName, setUserName] = useState('')
-    const noteService = useNoteService()
+    const authService = useAuthService()
 
     const doLogin = (e) => {
         e.preventDefault()
-        noteService.doLogin(userName)
+        authService.login(userName)
     }
 
     return (

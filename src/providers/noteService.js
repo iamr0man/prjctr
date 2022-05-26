@@ -4,22 +4,8 @@ import {NoteServiceContext} from "../services/note";
 import {useNoteState} from "../store/modules/NoteState";
 import {useNavigationState} from "../store/modules/NavigationState";
 import {useFormState} from "../store/modules/FormState";
-import {useAuthState} from "../store/modules/AuthState";
 
-const createNoteServiceProvider = (noteActions, navigationActions, formActions, authActions) => {
-    const doLogin = (userName) => {
-        authActions.doLogin({
-            isLoggedIn: true,
-            userName
-        })
-        navigationActions.setPath({ pathName: '/note-list'})
-    }
-
-    const doLogout = () => {
-        authActions.doLogout()
-        navigationActions.setPath({ pathName: '/'})
-    }
-
+const createNoteServiceProvider = (noteActions, navigationActions, formActions) => {
     const createNote = (payload) => {
         noteActions.createNote(payload)
         formActions.resetNote()
@@ -69,8 +55,6 @@ const createNoteServiceProvider = (noteActions, navigationActions, formActions, 
     }
 
     return {
-        doLogin,
-        doLogout,
         createNote,
         updateNote,
         openNote,
@@ -84,9 +68,8 @@ export const NoteServiceProvider = ({ children }) => {
     const [, noteActions] = useNoteState()
     const [, navigationActions] = useNavigationState()
     const [, formActions] = useFormState()
-    const [, authActions] = useAuthState()
 
-    const actions = createNoteServiceProvider(noteActions, navigationActions, formActions, authActions)
+    const actions = createNoteServiceProvider(noteActions, navigationActions, formActions)
 
     return (
       <NoteServiceContext.Provider value={actions}>

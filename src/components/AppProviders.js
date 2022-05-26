@@ -4,6 +4,7 @@ import {NavigationProvider} from "../providers/navigation";
 import {FormProvider} from "../providers/form";
 import {NoteListProvider} from "../providers/note";
 import {NoteServiceProvider} from "../providers/noteService";
+import {AuthServiceProvider} from "../providers/authService";
 
 function AppProviders({ children }) {
   return (
@@ -11,9 +12,11 @@ function AppProviders({ children }) {
       <AuthProvider>
         <FormProvider>
           <NoteListProvider>
-            <NoteServiceProvider>
-              {children}
-            </NoteServiceProvider>
+            <AuthServiceProvider>
+              <NoteServiceProvider>
+                {children}
+              </NoteServiceProvider>
+            </AuthServiceProvider>
           </NoteListProvider>
         </FormProvider>
       </AuthProvider>

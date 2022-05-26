@@ -1,15 +1,15 @@
 import React, { useContext, useState } from 'react';
 
 import { authInitialState } from '../reducers/auth'
-import { doLogin, doLogout } from '../actions/auth'
+import { login, logout } from '../actions/auth'
 
 export const AuthContext = React.createContext([authInitialState, () => undefined])
 
 export const useAuthState = () => {
     const [state, dispatch] = useContext(AuthContext)
     const [actions] = useState(() => ({
-        doLogin: doLogin(dispatch),
-        doLogout: doLogout(dispatch)
+        login: login(dispatch),
+        logout: logout(dispatch)
     }))
     return [state, actions]
 }

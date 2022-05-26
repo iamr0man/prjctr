@@ -1,11 +1,11 @@
-import {DO_LOGIN, DO_LOGOUT} from "./types";
+import {LOGIN, LOGOUT} from "./types";
 
-export const doLogin = dispatch => (data) => {
+export const login = dispatch => (data) => {
   dispatch({
-    type: DO_LOGIN,
+    type: LOGIN,
     payload: data
   })
 }
-export const doLogout = dispatch => () => {
-  dispatch({ type: DO_LOGOUT })
+export const logout = dispatch => () => {
+  dispatch({ type: LOGOUT })
 }
