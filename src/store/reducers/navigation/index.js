@@ -6,7 +6,7 @@ const initialParamsState = {
 
 export const navigationInitialState = {
     router: {
-        pathName: '/note-list',
+        pathName: '/',
         params: {
             initialParamsState
         }

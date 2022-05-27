@@ -3,15 +3,15 @@ import './index.scss'
 import { Typography } from "antd";
 const { Title } = Typography;
 
-function CHeader(props) {
+function CHeader({ level, text, children }) {
     return (
         <div className="common-header">
             <Typography>
-                <Title level={props.level}>
-                    {props.text}
+                <Title level={level}>
+                    {text}
                 </Title>
             </Typography>
-            {props.children}
+            {children}
         </div>
     );
 }

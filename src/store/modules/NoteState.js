@@ -6,7 +6,7 @@ import {
     createNote,
     updateNote,
     deleteNote
-} from '../actions'
+} from '../actions/note'
 
 export const NoteListContext = React.createContext([noteInitialState, () => undefined])
 
